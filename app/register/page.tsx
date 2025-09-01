@@ -1,0 +1,156 @@
+"use client"
+
+import type React from "react"
+
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import Link from "next/link"
+
+export default function RegisterPage() {
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [name, setName] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [error, setError] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
+
+  async function onSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setError(null)
+    setLoading(true)
+    
+    try {
+      if (!email || !password || !name) throw new Error("All fields are required")
+      if (password !== confirmPassword) throw new Error("Passwords do not match")
+      if (password.length < 8) throw new Error("Password must be at least 8 characters")
+      
+      // Real API call to register endpoint
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password, name }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || "Registration failed")
+      }
+
+      const data = await response.json()
+      
+      // Store the access token
+      localStorage.setItem("access_token", data.accessToken)
+      
+      // Redirect to upload page
+      window.location.href = "/dashboard"
+      
+    } catch (err: any) {
+      setError(err?.message || "Registration failed")
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div className="min-h-[60vh] flex items-center justify-center">
+      <div className="mx-auto max-w-md w-full space-y-8">
+        {/* Header */}
+        <div className="text-center space-y-2">
+          <h1 className="text-3xl font-bold gradient-text">Create Account</h1>
+          <p className="text-muted-foreground">Join thousands of users improving their resumes with AI</p>
+        </div>
+
+        {/* Registration Form */}
+        <div className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-xl border p-8">
+          {error && (
+            <div className="mb-4 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
+              {error}
+            </div>
+          )}
+          
+          <form onSubmit={onSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="name" className="text-sm font-medium">Full Name</Label>
+              <Input 
+                id="name" 
+                type="text" 
+                placeholder="Your Nane"
+                value={name} 
+                onChange={(e) => setName(e.target.value)} 
+                required 
+                className="h-11"
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="email" className="text-sm font-medium">Email Address</Label>
+              <Input 
+                id="email" 
+                type="email" 
+                placeholder="Enter your email address"
+                value={email} 
+                onChange={(e) => setEmail(e.target.value)} 
+                required 
+                className="h-11"
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="password" className="text-sm font-medium">Password</Label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="Create a secure password (8+ characters)"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="h-11"
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="confirmPassword" className="text-sm font-medium">Confirm Password</Label>
+              <Input
+                id="confirmPassword"
+                type="password"
+                placeholder="Repeat your password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+                className="h-11"
+              />
+            </div>
+
+            <Button 
+              type="submit"
+              disabled={loading} 
+              className="w-full h-11 bg-primary hover:bg-primary/90 text-primary-foreground"
+            >
+              {loading ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  Creating Account...
+                </>
+              ) : (
+                "Create Account"
+              )}
+            </Button>
+          </form>
+        </div>
+
+        {/* Footer */}
+        <div className="text-center">
+          <p className="text-sm text-muted-foreground">
+            Already have an account?{" "}
+            <Link href="/login" className="text-primary hover:underline font-medium">
+              Sign in here
+            </Link>
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}

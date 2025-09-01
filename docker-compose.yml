@@ -1,0 +1,45 @@
+version: "3.9"
+
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - mongo-data:/data/db
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    environment:
+      NODE_ENV: production
+      PORT: 8080
+      MONGO_URI: "mongodb://root:example@mongo:27017/resume_analyzer?authSource=admin"
+      JWT_ACCESS_SECRET: "replace-in-env"
+      JWT_REFRESH_SECRET: "replace-in-env"
+      CORS_ALLOWLIST: "http://localhost:5173,http://localhost:3000"
+      RATE_LIMIT_WINDOW_MS: "60000"
+      RATE_LIMIT_MAX: "100"
+    ports:
+      - "8080:8080"
+
+  web:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      VITE_API_URL: "http://localhost:8080"
+    ports:
+      - "5173:80"
+
+volumes:
+  mongo-data:
