@@ -6,7 +6,201 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC)](https://tailwindcss.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-> An AI-powered resume analysis tool that provides detailed scoring, skill gap analysis, and personalized recommendations to help job seekers create compelling resumes.
+# 🚀 Resume Analyzer
+
+> **AI-Powered Resume Analysis Tool** - Get instant feedback and improve your resume with advanced AI scoring and recommendations.
+
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/sumansingh20/resume-strength-analyzer)
+
+## ✨ Features
+
+- 🎯 **AI-Powered Analysis** - Advanced algorithms analyze your resume content
+- 📊 **Comprehensive Scoring** - Overall score with detailed breakdowns
+- 🔍 **Skill Gap Analysis** - Identify missing skills for your target role
+- 📈 **ATS Optimization** - Ensure your resume passes Applicant Tracking Systems
+- 💡 **Smart Recommendations** - Actionable suggestions to improve your resume
+- 🚀 **Instant Results** - Get analysis within seconds
+- 📱 **Mobile Friendly** - Works seamlessly on all devices
+
+## 🎮 Quick Demo
+
+**Demo Account (No Registration Required):**
+- **URL**: [Live Demo](https://resume-analyzer-demo.netlify.app)
+- **Email**: `demo@resumeanalyzer.com`
+- **Password**: `demo1234`
+
+Click "Login as Demo User" for instant access!
+
+## 🛠️ Tech Stack
+
+- **Framework**: [Next.js 15](https://nextjs.org/) with App Router
+- **Frontend**: [React 19](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) + [shadcn/ui](https://ui.shadcn.com/)
+- **Authentication**: JWT-based with localStorage
+- **File Processing**: PDF parsing with text extraction
+- **Deployment**: [Netlify](https://netlify.com/) with serverless functions
+- **Package Manager**: pnpm
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 18+ 
+- pnpm (recommended) or npm
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/sumansingh20/resume-strength-analyzer.git
+cd resume-strength-analyzer
+
+# Install dependencies
+pnpm install
+
+# Start development server
+pnpm dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### Demo Access
+1. Visit the application
+2. Click "Login as Demo User" 
+3. Upload a resume (PDF/DOC/DOCX/TXT)
+4. Get instant AI analysis!
+
+## 📁 Project Structure
+
+```
+resume-analyzer/
+├── app/                    # Next.js App Router pages
+│   ├── api/               # API routes (serverless functions)
+│   ├── login/             # Authentication pages
+│   ├── upload/            # Resume upload & analysis
+│   └── layout.tsx         # Root layout
+├── components/            # Reusable UI components
+│   └── ui/               # shadcn/ui components
+├── lib/                  # Utility functions
+│   ├── analyzer.ts       # AI analysis logic
+│   ├── parser.ts         # File parsing
+│   └── auth.ts           # Authentication helpers
+└── public/               # Static assets
+```
+
+## 🔧 Environment Variables
+
+Create a `.env.local` file:
+
+```env
+# App Configuration
+NEXT_PUBLIC_APP_NAME="Resume Analyzer"
+NEXT_PUBLIC_API_URL=""
+
+# Optional: Email notifications (if implemented)
+# SMTP_HOST=smtp.gmail.com
+# SMTP_PORT=587
+# SMTP_USER=your-email@gmail.com
+# SMTP_PASS=your-app-password
+```
+
+## 📊 Analysis Features
+
+### Scoring Metrics
+- **Overall Score** (0-100): Comprehensive resume quality
+- **Skills Coverage** (0-100): Relevant skills for target role
+- **Experience Relevance** (0-100): Work experience alignment
+- **ATS Readiness** (0-100): Applicant Tracking System compatibility
+- **Impact Score** (0-100): Achievement and impact statements
+
+### File Support
+- **PDF** - Primary format with full text extraction
+- **DOC/DOCX** - Microsoft Word documents
+- **TXT** - Plain text resumes
+- **Maximum Size**: 6MB per file
+
+## 🌐 Deployment
+
+### Deploy to Netlify (Recommended)
+
+1. **One-Click Deploy**:
+   [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/sumansingh20/resume-strength-analyzer)
+
+2. **Manual Deploy**:
+   ```bash
+   # Build the application
+   pnpm build
+   
+   # Deploy with Netlify CLI
+   netlify deploy --prod
+   ```
+
+### Deploy to Vercel
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy
+vercel --prod
+```
+
+## 🔐 Security Features
+
+- JWT-based authentication
+- Input sanitization and validation
+- File type restrictions
+- Rate limiting on API endpoints
+- Secure headers configuration
+- XSS and CSRF protection
+
+## 🧪 Development
+
+### Available Scripts
+
+```bash
+pnpm dev          # Start development server
+pnpm build        # Build for production
+pnpm start        # Start production server
+pnpm lint         # Run ESLint
+pnpm type-check   # Run TypeScript checks
+```
+
+### API Endpoints
+
+- `POST /api/auth/login` - User authentication
+- `POST /api/auth/register` - User registration
+- `POST /api/resumes/upload` - Resume upload & analysis
+- `GET /api/users/me` - Get current user info
+- `GET /api/reports` - Get analysis reports
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙋‍♂️ Support
+
+- **Demo**: [Live Application](https://resume-analyzer-demo.netlify.app)
+- **Issues**: [GitHub Issues](https://github.com/sumansingh20/resume-strength-analyzer/issues)
+- **Email**: `demo@resumeanalyzer.com`
+
+## 🌟 Acknowledgments
+
+- [Next.js](https://nextjs.org/) for the amazing framework
+- [shadcn/ui](https://ui.shadcn.com/) for beautiful components
+- [Tailwind CSS](https://tailwindcss.com/) for rapid styling
+- [Netlify](https://netlify.com/) for seamless deployment
+
+---
+
+**Made with ❤️ by [Suman Singh](https://github.com/sumansingh20)**
 
 ## 🚀 Live Demo
 
