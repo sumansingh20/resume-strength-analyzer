@@ -7,19 +7,11 @@
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
 [context.production.environment]
   NEXT_PUBLIC_APP_NAME = "Resume Strength Analyzer"
   NEXT_PUBLIC_API_URL = ""
+  JWT_ACCESS_SECRET = "your-access-secret-key-here"
+  JWT_REFRESH_SECRET = "your-refresh-secret-key-here"
 
 [context.deploy-preview.environment]
   NEXT_PUBLIC_APP_NAME = "Resume Strength Analyzer (Preview)"
