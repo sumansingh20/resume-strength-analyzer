@@ -4,3 +4,6 @@ uploads
 .env
 .env.*
 coverage
+
+# Local Netlify folder
+.netlify
