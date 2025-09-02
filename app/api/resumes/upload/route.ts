@@ -105,8 +105,25 @@ export async function POST(req: NextRequest) {
 
   console.log("🔍 Starting text extraction...")
   try {
-    const text = await extractTextFromFile(file)
-    console.log("✅ Text extracted successfully, length:", text.length)
+    let text = ""
+    
+    // Try text extraction with fallback
+    try {
+      text = await extractTextFromFile(file)
+      console.log("✅ Text extracted successfully, length:", text.length)
+    } catch (extractError) {
+      console.warn("⚠️ Text extraction failed, using fallback:", extractError)
+      // Fallback: try to read as text if possible, otherwise use filename and metadata
+      if (file.type === "text/plain" || file.name.endsWith('.txt')) {
+        text = await file.text()
+      } else {
+        text = `Resume file: ${file.name} (${file.type}, ${file.size} bytes)\nContent could not be extracted. Please try uploading as a text file (.txt) for full analysis.`
+      }
+    }
+    
+    if (!text || text.length < 50) {
+      text = `Resume file: ${file.name}\nMinimal content detected. For better analysis, please upload a text file (.txt) or ensure your PDF contains extractable text.`
+    }
     
     console.log("📊 Starting analysis...")
     const analyzer = getAnalyzer()

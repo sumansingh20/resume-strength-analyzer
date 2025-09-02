@@ -1,5 +1,10 @@
 // @ts-ignore - pdf-parse types not available
-import pdf from 'pdf-parse'
+let pdf: any = null
+try {
+  pdf = require('pdf-parse')
+} catch (e) {
+  console.warn('PDF parsing not available in this environment')
+}
 
 export async function extractTextFromFile(file: File): Promise<string> {
   const type = file.type || ""
@@ -25,6 +30,10 @@ async function handleTextFile(file: File): Promise<string> {
 
 async function handlePdfFile(file: File): Promise<string> {
   try {
+    if (!pdf) {
+      return "PDF parsing not available in this environment. Please upload your resume as a text file (.txt) for analysis."
+    }
+    
     console.log("🔍 Parsing PDF file:", file.name, "Size:", file.size)
     const arrayBuffer = await file.arrayBuffer()
     console.log("✅ ArrayBuffer created, size:", arrayBuffer.byteLength)
@@ -38,7 +47,7 @@ async function handlePdfFile(file: File): Promise<string> {
     return data.text || "Unable to extract text from PDF"
   } catch (error) {
     console.error("❌ PDF parsing error:", error)
-    return `Error parsing PDF: ${error instanceof Error ? error.message : 'Unknown error'}`
+    return `Error parsing PDF: ${error instanceof Error ? error.message : 'Unknown error'}. Please try uploading your resume as a text file (.txt) for better analysis.`
   }
 }
 
