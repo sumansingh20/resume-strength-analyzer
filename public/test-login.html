@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Test</title>
+</head>
+<body>
+    <h1>Login Test</h1>
+    <div id="result"></div>
+    <script>
+        async function testLogin() {
+            try {
+                console.log('Starting login test...');
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: 'suman@iitp.ac.in',
+                        password: 'Khushi@1234'
+                    })
+                });
+                
+                console.log('Response status:', response.status);
+                console.log('Response ok:', response.ok);
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Error data:', errorData);
+                    document.getElementById('result').innerHTML = `Error: ${JSON.stringify(errorData)}`;
+                    return;
+                }
+                
+                const data = await response.json();
+                console.log('Success data:', data);
+                document.getElementById('result').innerHTML = `Success: ${JSON.stringify(data, null, 2)}`;
+                
+                // Test token storage
+                localStorage.setItem('access_token', data.accessToken);
+                console.log('Token stored:', localStorage.getItem('access_token'));
+                
+            } catch (error) {
+                console.error('Fetch error:', error);
+                document.getElementById('result').innerHTML = `Fetch Error: ${error.message}`;
+            }
+        }
+        
+        // Run test immediately
+        testLogin();
+    </script>
+</body>
+</html>
