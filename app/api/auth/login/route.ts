@@ -3,12 +3,16 @@ import { z } from "zod"
 import { getUsersRepo } from "@/lib/db"
 import { verifyPassword, signAccessToken, signRefreshToken, rateLimit, clientIp } from "@/lib/auth"
 import { generateLoginNotificationEmail, sendEmail } from "@/lib/email"
-import { handleAPIError, createAPIResponse } from "@/lib/api-utils"
+import { handleAPIError, createAPIResponse, createCORSResponse } from "@/lib/api-utils"
 
 const schema = z.object({
   email: z.string().email(),
   password: z.string().min(8).max(128),
 })
+
+export async function OPTIONS() {
+  return createCORSResponse()
+}
 
 export async function POST(req: NextRequest) {
   try {
