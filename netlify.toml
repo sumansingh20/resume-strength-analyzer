@@ -12,8 +12,8 @@
 [context.production.environment]
   NEXT_PUBLIC_APP_NAME = "Resume Strength Analyzer"
   NEXT_PUBLIC_API_URL = ""
-  JWT_ACCESS_SECRET = "your-access-secret-key-here"
-  JWT_REFRESH_SECRET = "your-refresh-secret-key-here"
+  JWT_ACCESS_SECRET = "f1a99f86bc7fe81c67dfd870f63d2d7560ec4a0c63c2f560b8c1f549715fbc83672191073e63d5d9ef98fd5d83e5d14d178f7e397bec4308a0f47a1ab224f10d"
+  JWT_REFRESH_SECRET = "59ff4e79d4618048cb543a25eefc26a23e0af7371b66dfe3a262bc08499e7eb38901a9c35b74ce81c7c76c6856772af8b7b9b534d2daad2f1a4108832e1103e"
 
 [context.deploy-preview.environment]
   NEXT_PUBLIC_APP_NAME = "Resume Strength Analyzer (Preview)"
