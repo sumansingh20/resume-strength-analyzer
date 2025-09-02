@@ -25,7 +25,35 @@ export async function GET(req: NextRequest) {
     const users = getUsersRepo()
     const user = await users.findById(sub)
     
-    if (!user) return NextResponse.json({ error: "Not found" }, { status: 404 })
+    if (!user) {
+      // If user not found, try to recreate from JWT payload
+      if (payload.email && payload.name) {
+        try {
+          const newUser = await users.create({
+            email: payload.email as string,
+            name: payload.name as string,
+            role: (payload.role as "user" | "admin") || "user",
+            passwordHash: "dummy-hash-will-need-reset" // User will need to reset password
+          })
+          
+          return NextResponse.json({ 
+            id: newUser.id, 
+            email: newUser.email, 
+            name: newUser.name, 
+            role: newUser.role,
+            bio: newUser.bio,
+            location: newUser.location,
+            website: newUser.website,
+            createdAt: newUser.createdAt,
+            message: "User recreated from session"
+          })
+        } catch (createError) {
+          console.error("Failed to recreate user:", createError)
+        }
+      }
+      return NextResponse.json({ error: "User not found. Please register again." }, { status: 404 })
+    }
+    
     return NextResponse.json({ 
       id: user.id, 
       email: user.email, 
@@ -37,7 +65,8 @@ export async function GET(req: NextRequest) {
       createdAt: user.createdAt
     })
   } catch (error) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    console.error("Auth verification error:", error)
+    return NextResponse.json({ error: "Invalid token" }, { status: 401 })
   }
 }
 

@@ -39,6 +39,7 @@ export async function POST() {
         success: true,
         message: "Test user already exists",
         user: {
+          id: existing.id,
           email: existing.email,
           name: existing.name,
           role: existing.role
@@ -55,10 +56,23 @@ export async function POST() {
       passwordHash
     })
     
+    // Also create some additional test users for demonstration
+    try {
+      await users.create({
+        email: "test@example.com",
+        name: "Test User",
+        role: "user",
+        passwordHash: await hashPassword("TestPass123")
+      })
+    } catch {
+      // Ignore if user already exists
+    }
+    
     return NextResponse.json({
       success: true,
       message: "Test user created successfully",
       user: {
+        id: created.id,
         email: created.email,
         name: created.name,
         role: created.role,
