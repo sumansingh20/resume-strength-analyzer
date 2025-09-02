@@ -95,22 +95,24 @@ export default function UploadPage() {
       const headers = authHeader()
       console.log("📤 Headers:", headers)
       
-      const res = await fetch("/api/resumes/new-upload", {
+      const response = await fetch("/api/upload-resume", {
         method: "POST",
-        headers: headers, // Content-Type omitted for multipart
+        headers: {
+          ...authHeader(),
+        },
         body: form,
-      })
+      });
       
-      if (res.ok) {
-        const data = await res.json()
+      if (response.ok) {
+        const data = await response.json()
         setReport(data.report)
         setStatus(`Analysis complete. Overall: ${data.report.scores.overall}%`)
         return
       }
       
       // Handle errors
-      const errorData = await res.json().catch(() => ({}))
-      throw new Error(errorData?.error || `HTTP ${res.status}: ${res.statusText}`)
+      const errorData = await response.json().catch(() => ({}))
+      throw new Error(errorData?.error || `HTTP ${response.status}: ${response.statusText}`)
       
     } catch (err: any) {
       setReport(null)
