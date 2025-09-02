@@ -95,11 +95,8 @@ export default function UploadPage() {
       const headers = authHeader()
       console.log("📤 Headers:", headers)
       
-      const response = await fetch("/api/upload-resume", {
+      const response = await fetch("/api/upload", {
         method: "POST",
-        headers: {
-          ...authHeader(),
-        },
         body: form,
       });
       
