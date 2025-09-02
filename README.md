@@ -1,14 +1,17 @@
 # 🎯 Resume Strength Analyzer
 
 [![Next.js](https://img.shields.io/badge/Next.js-15.2.4-black)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-19-blue)](https://reactjs.org/)
+[![React](https://img.shields.io/badge/React-18.3.1-blue)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC)](https://tailwindcss.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![Deployed on Netlify](https://img.shields.io/badge/Deployed%20on-Netlify-00C7B7)](https://resume-strength-analyzer.netlify.app/)
 
 > **AI-Powered Resume Analysis Tool** - A comprehensive platform to help job seekers analyze, improve, and optimize their resumes with intelligent scoring, detailed feedback, and personalized recommendations.
 
 ## 🌐 Live Demo
+
+🚀 **[Visit Resume Strength Analyzer](https://resume-strength-analyzer.netlify.app/)**
 
 🚀 **[Try it live on Netlify](https://resume-strength-analyzer.netlify.app)**
 
