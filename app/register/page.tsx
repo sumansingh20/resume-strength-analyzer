@@ -37,7 +37,7 @@ export default function RegisterPage() {
 
       // Check if response is JSON
       const contentType = response.headers.get("content-type")
-      if (!contentType || !contentType.includes("application/json")) {
+      if (!contentType?.includes("application/json")) {
         throw new Error("Server returned invalid response format")
       }
 
@@ -45,10 +45,15 @@ export default function RegisterPage() {
       try {
         data = await response.json()
       } catch (jsonError) {
+        console.error("JSON parsing error:", jsonError)
         throw new Error("Failed to parse server response")
       }
 
       if (!response.ok) {
+        // Handle specific error cases
+        if (response.status === 409 && data.error === "Email already in use") {
+          throw new Error("This email is already registered. Please use a different email or try logging in instead.")
+        }
         throw new Error(data.error || `Registration failed (${response.status})`)
       }
 
@@ -66,7 +71,8 @@ export default function RegisterPage() {
       
     } catch (err: any) {
       console.error("Registration error:", err)
-      setError(err?.message || "Registration failed. Please try again.")
+      const errorMessage = err?.message || "Registration failed. Please try again."
+      setError(errorMessage)
       setLoading(false)
     }
   }
@@ -85,6 +91,13 @@ export default function RegisterPage() {
           {error && (
             <div className="mb-4 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
               {error}
+              {error.includes("already registered") && (
+                <div className="mt-2 pt-2 border-t border-destructive/20">
+                  <Link href="/login" className="text-primary hover:underline font-medium">
+                    Go to login page →
+                  </Link>
+                </div>
+              )}
             </div>
           )}
           
@@ -109,7 +122,13 @@ export default function RegisterPage() {
                 type="email" 
                 placeholder="Enter your email address"
                 value={email} 
-                onChange={(e) => setEmail(e.target.value)} 
+                onChange={(e) => {
+                  setEmail(e.target.value)
+                  // Clear error when user starts typing a new email
+                  if (error?.includes("already registered")) {
+                    setError(null)
+                  }
+                }} 
                 required 
                 className="h-11"
               />
