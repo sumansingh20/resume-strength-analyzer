@@ -95,7 +95,7 @@ export default function UploadPage() {
       const headers = authHeader()
       console.log("📤 Headers:", headers)
       
-      const res = await fetch("/api/resumes/upload", {
+      const res = await fetch("/api/resumes/new-upload", {
         method: "POST",
         headers: headers, // Content-Type omitted for multipart
         body: form,
