@@ -30,21 +30,38 @@ export default function LoginPage() {
         body: JSON.stringify({ email, password }),
       })
 
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || "Login failed")
+      // Check if response is JSON
+      const contentType = response.headers.get("content-type")
+      if (!contentType?.includes("application/json")) {
+        throw new Error("Server returned invalid response format")
       }
 
-      const data = await response.json()
+      let data
+      try {
+        data = await response.json()
+      } catch {
+        throw new Error("Failed to parse server response")
+      }
+
+      if (!response.ok) {
+        throw new Error(data.error || `Login failed (${response.status})`)
+      }
+
+      if (!data.success) {
+        throw new Error(data.error || "Login failed")
+      }
       
       // Store the access token
-      localStorage.setItem("access_token", data.accessToken)
+      if (data.accessToken) {
+        localStorage.setItem("access_token", data.accessToken)
+      }
       
-      // Redirect to upload page
+      // Redirect to dashboard page
       window.location.href = "/dashboard"
       
     } catch (err: any) {
-      setError(err?.message || "Sign-in failed")
+      console.error("Login error:", err)
+      setError(err?.message || "Sign-in failed. Please try again.")
       setLoading(false)
     }
   }

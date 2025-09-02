@@ -35,21 +35,38 @@ export default function RegisterPage() {
         body: JSON.stringify({ email, password, name }),
       })
 
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || "Registration failed")
+      // Check if response is JSON
+      const contentType = response.headers.get("content-type")
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error("Server returned invalid response format")
       }
 
-      const data = await response.json()
+      let data
+      try {
+        data = await response.json()
+      } catch (jsonError) {
+        throw new Error("Failed to parse server response")
+      }
+
+      if (!response.ok) {
+        throw new Error(data.error || `Registration failed (${response.status})`)
+      }
+
+      if (!data.success) {
+        throw new Error(data.error || "Registration failed")
+      }
       
       // Store the access token
-      localStorage.setItem("access_token", data.accessToken)
+      if (data.accessToken) {
+        localStorage.setItem("access_token", data.accessToken)
+      }
       
-      // Redirect to upload page
+      // Redirect to dashboard page
       window.location.href = "/dashboard"
       
     } catch (err: any) {
-      setError(err?.message || "Registration failed")
+      console.error("Registration error:", err)
+      setError(err?.message || "Registration failed. Please try again.")
       setLoading(false)
     }
   }
