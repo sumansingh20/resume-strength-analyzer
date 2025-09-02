@@ -51,6 +51,7 @@ export async function POST(req: NextRequest) {
     name: created.name,
     role: created.role,
   })
+
   const refreshToken = await signRefreshToken({
     id: created.id,
     email: created.email,

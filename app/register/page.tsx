@@ -55,7 +55,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-[60vh] flex items-center justify-center">
+    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center py-12 px-4">
       <div className="mx-auto max-w-md w-full space-y-8">
         {/* Header */}
         <div className="text-center space-y-2">
@@ -77,7 +77,7 @@ export default function RegisterPage() {
               <Input 
                 id="name" 
                 type="text" 
-                placeholder="Your Nane"
+                placeholder="Your Name"
                 value={name} 
                 onChange={(e) => setName(e.target.value)} 
                 required 

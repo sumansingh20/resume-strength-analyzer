@@ -2,8 +2,6 @@ import type { NextRequest } from "next/server"
 import { SignJWT, jwtVerify } from "jose"
 import bcrypt from "bcryptjs"
 
-const encoder = new TextEncoder()
-
 export type JwtUser = {
   id: string
   email: string
@@ -19,11 +17,17 @@ function requireEnv(key: string): string {
   return v
 }
 
-export function getAccessSecret() {
-  return encoder.encode(requireEnv("JWT_ACCESS_SECRET"))
+// Use consistent secret encoding function
+function getSecretBytes(secret: string): Uint8Array {
+  return new TextEncoder().encode(secret)
 }
-export function getRefreshSecret() {
-  return encoder.encode(requireEnv("JWT_REFRESH_SECRET"))
+
+export function getAccessSecret(): Uint8Array {
+  return getSecretBytes(requireEnv("JWT_ACCESS_SECRET"))
+}
+
+export function getRefreshSecret(): Uint8Array {
+  return getSecretBytes(requireEnv("JWT_REFRESH_SECRET"))
 }
 
 export async function hashPassword(password: string) {
@@ -36,11 +40,13 @@ export async function verifyPassword(password: string, hash: string) {
 }
 
 export async function signAccessToken(user: JwtUser) {
+  const secret = getAccessSecret()
+  
   return new SignJWT({ sub: user.id, email: user.email, name: user.name, role: user.role })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
     .setExpirationTime("30m")
-    .sign(getAccessSecret())
+    .sign(secret)
 }
 
 export async function signRefreshToken(user: JwtUser) {
@@ -52,7 +58,9 @@ export async function signRefreshToken(user: JwtUser) {
 }
 
 export async function verifyAccessToken(token: string) {
-  const { payload } = await jwtVerify(token, getAccessSecret())
+  const secret = getAccessSecret()
+  
+  const { payload } = await jwtVerify(token, secret)
   return payload
 }
 
@@ -89,6 +97,5 @@ export function rateLimit(key: string) {
 export function clientIp(req: NextRequest) {
   const xff = req.headers.get("x-forwarded-for")
   if (xff) return xff.split(",")[0].trim()
-  // Return unknown as fallback since req.ip is not available in NextRequest
   return "unknown"
 }

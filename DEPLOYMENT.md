@@ -1,14 +1,15 @@
-# 🚀 Deployment Guide for Resume Strength Analyzer
+# 🚀 Production Deployment Guide
 
-This guide will help you deploy your Resume Strength Analyzer to Netlify for free.
+This guide will help you deploy your Resume Strength Analyzer to production on Netlify.
 
 ## 📋 Prerequisites
 
-- GitHub account
-- Netlify account (free)
-- Git installed locally
+- GitHub account with your repository
+- Netlify account (free tier available)
+- Production domain (optional)
+- SendGrid account for email (optional)
 
-## 🔧 Step-by-Step Deployment
+## 🔧 Step-by-Step Production Deployment
 
 ### **Step 1: Prepare Your Repository**
 

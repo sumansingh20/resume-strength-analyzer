@@ -178,6 +178,88 @@ export function generateLoginNotificationEmail(userEmail: string, loginTime: Dat
   }
 }
 
+export function generatePasswordResetEmail(userEmail: string, resetToken: string, userName?: string): EmailTemplate {
+  const name = userName || userEmail.split('@')[0]
+  const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/reset-password?token=${resetToken}`
+  
+  return {
+    subject: 'Reset Your Password - Resume Strength Analyzer',
+    html: `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <style>
+          body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+          .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+          .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; border-radius: 8px 8px 0 0; }
+          .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 8px 8px; }
+          .button { display: inline-block; background: #667eea; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; margin: 20px 0; font-weight: bold; }
+          .warning { background: #fff3cd; padding: 15px; border-left: 4px solid #ffc107; margin: 20px 0; }
+          .footer { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #666; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h1>🔐 Password Reset Request</h1>
+          </div>
+          <div class="content">
+            <h2>Hello ${name}!</h2>
+            <p>We received a request to reset your password for your Resume Strength Analyzer account.</p>
+            
+            <div style="text-align: center;">
+              <a href="${resetUrl}" class="button">Reset Your Password</a>
+            </div>
+            
+            <div class="warning">
+              <h3>⚠️ Important Security Information:</h3>
+              <ul>
+                <li>This link will expire in <strong>1 hour</strong></li>
+                <li>If you didn't request this reset, please ignore this email</li>
+                <li>Your password remains unchanged until you click the link above</li>
+                <li>Never share this link with anyone</li>
+              </ul>
+            </div>
+            
+            <p>If the button doesn't work, copy and paste this link into your browser:</p>
+            <p style="word-break: break-all; background: #e9ecef; padding: 10px; border-radius: 4px; font-family: monospace;">${resetUrl}</p>
+            
+            <p>If you have any questions or concerns, please contact our support team.</p>
+            
+            <p>Best regards,<br>The Resume Strength Analyzer Team</p>
+          </div>
+          <div class="footer">
+            <p>This email was sent because a password reset was requested for your account.</p>
+            <p>© 2025 Resume Strength Analyzer. All rights reserved.</p>
+          </div>
+        </div>
+      </body>
+      </html>
+    `,
+    text: `
+      Password Reset Request - Resume Strength Analyzer
+      
+      Hello ${name}!
+      
+      We received a request to reset your password for your Resume Strength Analyzer account.
+      
+      Click this link to reset your password:
+      ${resetUrl}
+      
+      Important Security Information:
+      • This link will expire in 1 hour
+      • If you didn't request this reset, please ignore this email
+      • Your password remains unchanged until you click the link above
+      • Never share this link with anyone
+      
+      If you have any questions or concerns, please contact our support team.
+      
+      Best regards,
+      The Resume Strength Analyzer Team
+    `
+  }
+}
+
 export async function sendEmail(to: string, template: EmailTemplate): Promise<boolean> {
   try {
     console.log('📧 Sending email to:', to)
@@ -186,7 +268,7 @@ export async function sendEmail(to: string, template: EmailTemplate): Promise<bo
 
     await new Promise((resolve) => setTimeout(resolve, 1000))
 
-    console.log('Email sent successfully (mock)')
+    console.log('✅ Email sent successfully to console')
     return true
   } catch (error) {
     console.error('Failed to send email:', error)

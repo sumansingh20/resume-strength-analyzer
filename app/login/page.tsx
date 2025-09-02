@@ -8,8 +8,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("demo@resumeanalyzer.com")
-  const [password, setPassword] = useState("demo1234")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
 
@@ -50,7 +50,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-[60vh] flex items-center justify-center">
+    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center py-12 px-4">
       <div className="mx-auto max-w-md w-full space-y-8">
         {/* Header */}
               {/* Header Section */}
@@ -112,37 +112,24 @@ export default function LoginPage() {
             </Button>
 
             <div className="text-center">
-              <p className="text-xs text-muted-foreground mb-2">Quick Demo Access</p>
-              <Button 
-                type="button"
-                onClick={() => {
-                  setEmail("demo@resumeanalyzer.com")
-                  setPassword("demo1234")
-                  // Auto-submit after setting values
-                  setTimeout(() => {
-                    document.querySelector('form')?.requestSubmit()
-                  }, 100)
-                }}
-                variant="outline"
-                className="w-full h-10"
+              <a 
+                href="/forgot-password" 
+                className="text-sm text-primary hover:underline"
               >
-                Login as Demo User
-              </Button>
+                Forgot your password?
+              </a>
             </div>
           </form>
         </div>
 
         {/* Footer */}
-        <div className="text-center space-y-4">
+        <div className="text-center">
           <p className="text-sm text-muted-foreground">
-            Demo account pre-configured for instant access
+            Don't have an account?{" "}
+            <a href="/register" className="text-primary hover:underline font-medium">
+              Sign up here
+            </a>
           </p>
-          
-          <div className="flex items-center justify-center space-x-4 text-xs text-muted-foreground">
-            <span>Email: demo@resumeanalyzer.com</span>
-            <span>•</span>
-            <span>Password: demo1234</span>
-          </div>
         </div>
       </div>
     </div>

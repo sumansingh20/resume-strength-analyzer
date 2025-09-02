@@ -10,6 +10,13 @@
 				"$tsc"
 			],
 			"group": "build"
+		},
+		{
+			"label": "Run Next.js Production",
+			"type": "shell",
+			"command": "pnpm start",
+			"isBackground": true,
+			"group": "build"
 		}
 	]
 }

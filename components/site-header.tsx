@@ -14,7 +14,8 @@ import {
   X, 
   Upload, 
   User,
-  LogOut
+  LogOut,
+  Settings
 } from "lucide-react"
 import { useEffect, useState } from "react"
 import {
@@ -61,6 +62,7 @@ export function SiteHeader() {
   }
 
   const navigationItems = [
+    { href: "/about", label: "How It Works", icon: null },
     { href: "/upload", label: "Upload Resume", icon: <Upload className="h-4 w-4" /> },
   ]
 
@@ -118,6 +120,12 @@ export function SiteHeader() {
                   <Link href="/dashboard" className="flex items-center w-full">
                     <User className="mr-2 h-4 w-4" />
                     <span>Dashboard</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link href="/profile" className="flex items-center w-full">
+                    <Settings className="mr-2 h-4 w-4" />
+                    <span>Profile</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={handleLogout} className="text-red-600">

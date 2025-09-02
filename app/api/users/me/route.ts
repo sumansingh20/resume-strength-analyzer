@@ -6,26 +6,50 @@ import { getBearerToken, verifyAccessToken } from "@/lib/auth"
 const updateSchema = z.object({
   name: z.string().min(1).max(120).optional(),
   email: z.string().email().optional(),
+  bio: z.string().max(500).optional(),
+  location: z.string().max(100).optional(),
+  website: z.string().url().optional().or(z.literal("")),
 })
 
 export async function GET(req: NextRequest) {
   const token = getBearerToken(req)
+  
   if (!token) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
+  
   try {
     const payload = await verifyAccessToken(token)
+    
     const sub = payload.sub as string
     const users = getUsersRepo()
     const user = await users.findById(sub)
+    
     if (!user) return NextResponse.json({ error: "Not found" }, { status: 404 })
-    return NextResponse.json({ id: user.id, email: user.email, name: user.name, role: user.role })
-  } catch {
+    return NextResponse.json({ 
+      id: user.id, 
+      email: user.email, 
+      name: user.name, 
+      role: user.role,
+      bio: user.bio,
+      location: user.location,
+      website: user.website,
+      createdAt: user.createdAt
+    })
+  } catch (error) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
 }
 
 export async function PATCH(req: NextRequest) {
+  return updateUser(req)
+}
+
+export async function PUT(req: NextRequest) {
+  return updateUser(req)
+}
+
+async function updateUser(req: NextRequest) {
   const token = getBearerToken(req)
   if (!token) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
@@ -44,7 +68,7 @@ export async function PATCH(req: NextRequest) {
       }, { status: 400 })
     }
 
-    const { name, email } = parsed.data
+    const { name, email, bio, location, website } = parsed.data
     const users = getUsersRepo()
     
     if (email) {
@@ -60,6 +84,9 @@ export async function PATCH(req: NextRequest) {
     const updateData: any = {}
     if (name !== undefined) updateData.name = name
     if (email !== undefined) updateData.email = email
+    if (bio !== undefined) updateData.bio = bio
+    if (location !== undefined) updateData.location = location
+    if (website !== undefined) updateData.website = website
 
     const updatedUser = await users.update(userId, updateData)
     if (!updatedUser) {
@@ -70,7 +97,10 @@ export async function PATCH(req: NextRequest) {
       id: updatedUser.id,
       email: updatedUser.email,
       name: updatedUser.name,
-      role: updatedUser.role
+      role: updatedUser.role,
+      bio: updatedUser.bio,
+      location: updatedUser.location,
+      website: updatedUser.website
     })
   } catch (error) {
     console.error("Profile update error:", error)

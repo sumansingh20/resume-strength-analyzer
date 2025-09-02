@@ -24,19 +24,7 @@ export async function POST(req: NextRequest) {
   const { email, password } = parsed.data
 
   const users = getUsersRepo()
-  let user = await users.findByEmail(email)
-  
-  // Auto-create demo user if it doesn't exist
-  if (!user && email === "demo@resumeanalyzer.com") {
-    console.log("Creating demo user...")
-    const passwordHash = await hashPassword("demo1234")
-    user = await users.create({ 
-      email: "demo@resumeanalyzer.com", 
-      name: "Demo User", 
-      role: "user", 
-      passwordHash 
-    })
-  }
+  const user = await users.findByEmail(email)
   
   if (!user) {
     return NextResponse.json({ error: "Invalid credentials" }, { status: 401 })
@@ -50,19 +38,17 @@ export async function POST(req: NextRequest) {
   const accessToken = await signAccessToken({ id: user.id, email: user.email, name: user.name, role: user.role })
   const refreshToken = await signRefreshToken({ id: user.id, email: user.email, name: user.name, role: user.role })
 
-  // Send login notification email (skip for demo user)
-  if (email !== "demo@resumeanalyzer.com") {
-    try {
-      const loginEmail = generateLoginNotificationEmail(
-        user.email, 
-        new Date(), 
-        req.headers.get('user-agent') || undefined
-      )
-      await sendEmail(user.email, loginEmail)
-    } catch (error) {
-      console.error('Failed to send login notification email:', error)
-      // Don't fail login if email fails
-    }
+  // Send login notification email
+  try {
+    const loginEmail = generateLoginNotificationEmail(
+      user.email, 
+      new Date(), 
+      req.headers.get('user-agent') || undefined
+    )
+    await sendEmail(user.email, loginEmail)
+  } catch (error) {
+    console.error('Failed to send login notification email:', error)
+    // Don't fail login if email fails
   }
 
   const res = NextResponse.json({

@@ -8,7 +8,7 @@
 
 # 🚀 Resume Analyzer
 
-> **AI-Powered Resume Analysis Tool** - Get instant feedback and improve your resume with advanced AI scoring and recommendations.
+> **AI-Powered Resume Analysis Tool** - A personal project to help job seekers get instant feedback and improve their resumes with advanced AI scoring and recommendations.
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/sumansingh20/resume-strength-analyzer)
 
@@ -22,14 +22,14 @@
 - 🚀 **Instant Results** - Get analysis within seconds
 - 📱 **Mobile Friendly** - Works seamlessly on all devices
 
-## 🎮 Quick Demo
+## 🎮 Quick Start
 
-**Demo Account (No Registration Required):**
-- **URL**: [Live Demo](https://resume-analyzer-demo.netlify.app)
-- **Email**: `demo@resumeanalyzer.com`
-- **Password**: `demo1234`
+**Get Started in 3 Steps:**
+1. **Create Account**: Register with your email
+2. **Upload Resume**: Support for PDF and text files
+3. **Get Analysis**: Instant AI-powered feedback
 
-Click "Login as Demo User" for instant access!
+Visit: [Live Application](https://resume-analyzer.netlify.app)
 
 ## 🛠️ Tech Stack
 
@@ -63,9 +63,10 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### Demo Access
+### Getting Started
+
 1. Visit the application
-2. Click "Login as Demo User" 
+2. Create an account or sign in
 3. Upload a resume (PDF/DOC/DOCX/TXT)
 4. Get instant AI analysis!
 
@@ -187,9 +188,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙋‍♂️ Support
 
-- **Demo**: [Live Application](https://resume-analyzer-demo.netlify.app)
+- **Application**: [Live Application](https://resume-analyzer.netlify.app)
 - **Issues**: [GitHub Issues](https://github.com/sumansingh20/resume-strength-analyzer/issues)
-- **Email**: `demo@resumeanalyzer.com`
+- **Contact**: Create an account to get started
 
 ## 🌟 Acknowledgments
 

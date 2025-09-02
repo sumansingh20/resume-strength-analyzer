@@ -128,7 +128,7 @@ export default function UploadPage() {
     : []
 
   return (
-    <div className="mx-auto max-w-4xl space-y-8">
+    <div className="mx-auto max-w-6xl px-4 py-8 space-y-8">
       {/* Navigation Header */}
       <div className="flex justify-between items-center border-b pb-4">
         <div>

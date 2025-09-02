@@ -28,26 +28,45 @@ export default function DashboardPage() {
   const checkAuth = async () => {
     try {
       const token = localStorage.getItem("access_token")
+      console.log("Token check:", token ? `${token.substring(0, 20)}...` : 'No token')
+      
       if (!token) {
+        setError("No authentication token found. Please log in.")
         setLoading(false)
         return
       }
 
+      console.log("Making request to /api/users/me...")
       const response = await fetch("/api/users/me", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
 
+      console.log("Response status:", response.status)
+
       if (response.ok) {
         const userData = await response.json()
+        console.log("User data received:", userData)
         setUser(userData)
+        setError("") // Clear any previous errors
       } else {
-        localStorage.removeItem("accessToken")
-        setError("Session expired. Please log in again.")
+        const errorText = await response.text()
+        console.error("API Error:", response.status, errorText)
+        
+        localStorage.removeItem("access_token")
+        
+        if (response.status === 401) {
+          setError("Session expired. Please log in again.")
+        } else if (response.status === 404) {
+          setError("User not found. Please register or contact support.")
+        } else {
+          setError(`Authentication failed: ${errorText}`)
+        }
       }
     } catch (err) {
-      setError("Failed to verify authentication")
+      console.error("Auth check error:", err)
+      setError("Failed to verify authentication. Please check your connection.")
     } finally {
       setLoading(false)
     }
@@ -86,6 +105,14 @@ export default function DashboardPage() {
           </div>
           
           <div className="space-y-4">
+            <Button 
+              onClick={checkAuth} 
+              variant="outline" 
+              className="w-full"
+              disabled={loading}
+            >
+              {loading ? "Checking..." : "Retry Authentication"}
+            </Button>
             <Link href="/login">
               <Button className="w-full" size="lg">
                 Sign In
@@ -108,7 +135,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="container mx-auto p-6 max-w-4xl">
+    <div className="mx-auto max-w-6xl px-4 py-8">
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div>
