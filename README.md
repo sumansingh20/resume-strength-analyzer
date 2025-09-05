@@ -81,7 +81,7 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/sumansingh20/resume-strength-analyzer.git
+git clone https://github.com/harshitaip/Resume-Strength-Analyzer.git
 cd resume-strength-analyzer
 
 # Install dependencies
@@ -279,8 +279,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🙋‍♂️ Support & Contact
 
 - **Live Application:** [https://resume-strength-analyzer.netlify.app](https://resume-strength-analyzer.netlify.app)
-- **GitHub Issues:** [Report bugs or request features](https://github.com/sumansingh20/resume-strength-analyzer/issues)
-- **GitHub Repository:** [Source code](https://github.com/sumansingh20/resume-strength-analyzer)
+- **GitHub Issues:** [Report bugs or request features](https://github.com/harshitaip/Resume-Strength-Analyzer/issues)
+- **GitHub Repository:** [Source code](https://github.com/harshitaip/Resume-Strength-Analyzer)
 
 ## 🌟 Acknowledgments
 
@@ -292,13 +292,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Built with ❤️ by [Suman Singh](https://github.com/sumansingh20)**
+**Built with ❤️ by [Harshita](https://github.com/harshitaip)**
 
 *Helping job seekers create better resumes, one analysis at a time.*
 
 ---
 
-**Built with ❤️ by [Suman Singh](https://github.com/sumansingh20)**
+**Built with ❤️ by [Harshita](https://github.com/harshitaip)**
 
 *Helping job seekers create better resumes, one analysis at a time.*
 
